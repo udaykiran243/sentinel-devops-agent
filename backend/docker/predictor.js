@@ -29,10 +29,10 @@ function predictContainer(containerId) {
   const cpuSlope = linearRegression(cpuValues);
   const memSlope = linearRegression(memValues);
   
-  // Convert slope (per 5s tick) to per-minute rate
-  // 60s / 5s = 12 points per minute
-  const POINTS_PER_MINUTE = 12;
-  const memSlopePerMinute = memSlope * POINTS_PER_MINUTE;
+  // Keep this aligned with monitor sampling cadence
+  const sampleSeconds = Number(process.env.PREDICTION_SAMPLE_SECONDS || 5);
+  const pointsPerMinute = 60 / sampleSeconds;
+  const memSlopePerMinute = memSlope * pointsPerMinute;
 
   const currentRestarts = restarts[restarts.length - 1] || 0;
   const initialRestarts = restarts[0] || 0;
