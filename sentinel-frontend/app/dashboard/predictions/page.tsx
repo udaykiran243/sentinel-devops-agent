@@ -130,7 +130,7 @@ export default function PredictionsPage() {
                                 
                                 <div className="mt-4 flex justify-end gap-2">
                                     <Button variant="ghost" size="sm">Logs</Button>
-                                    <Button variant="outline" size="sm" onClick={() => refetch()}>Refresh</Button>
+                                    <Button variant="outline" size="sm" onClick={() => refetchContainers()}>Refresh</Button>
                                     {isRisky && <Button variant="destructive" size="sm">Preempt Restart</Button>}
                                 </div>
                             </Spotlight>
