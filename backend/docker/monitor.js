@@ -102,6 +102,7 @@ class ContainerMonitor extends EventEmitter {
             this.watchers.delete(containerId);
             this.metrics.delete(containerId);
             this.lastStorePush.delete(containerId);
+            if (this.lastPredictTimes) this.lastPredictTimes.delete(containerId);
             metricsStore.clear(containerId);
         }
         if (this.securityTimers.has(containerId)) {
