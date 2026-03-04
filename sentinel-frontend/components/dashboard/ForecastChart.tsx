@@ -21,7 +21,7 @@ export function ForecastChart({ history, label, threshold, prediction, unit = '%
             type: 'actual'
         }));
 
-        if (prediction && prediction.slope > 0) {
+        if (prediction && prediction.slope > 0 && baseData.length > 0) {
             const lastPoint = baseData[baseData.length - 1];
             const lastVal = lastPoint.value;
             const forecastPoints = [];
@@ -79,7 +79,7 @@ export function ForecastChart({ history, label, threshold, prediction, unit = '%
                         fill="url(#colorValue)" 
                         connectNulls
                     />
-                    {threshold && (
+                    {threshold !== undefined && (
                         <ReferenceLine y={threshold} stroke="#ef4444" strokeDasharray="3 3" label="Critical" />
                     )}
                 </AreaChart>

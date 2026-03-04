@@ -640,7 +640,7 @@ containerMonitor.on('prediction', (prediction) => {
         incidents.logActivity('alert', `🔮 Prediction: Container ${prediction.containerId.substring(0, 12)} risk ${Math.round(prediction.probability * 100)}%. ${prediction.reason}`);
         
         if (prediction.probability > 0.85) {
-            console.log(`[Healing] Triggering preventive maintenance for ${prediction.containerId}`);
+            console.log(`[Healing] manual intervention recommended for ${prediction.containerId}`);
         }
     }
 

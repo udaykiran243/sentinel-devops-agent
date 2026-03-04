@@ -1,5 +1,4 @@
 const { docker } = require('./client');
-const store = require('../db/metrics-store');
 const { scanImage } = require('../security/scanner');
 const EventEmitter = require('events');
 const metricsStore = require('../db/metrics-store');
@@ -15,6 +14,7 @@ class ContainerMonitor extends EventEmitter {
         this.restartCounts = new Map();
         this.containerNames = new Map();
         this.lastInspectTimes = new Map();
+        this.lastPredictTimes = new Map();
     }
 
     async startMonitoring(containerId) {
@@ -48,16 +48,15 @@ class ContainerMonitor extends EventEmitter {
                     const lastInspect = this.lastInspectTimes.get(containerId) || 0;
                     
                     if (now - lastInspect > 30000) {
+                        this.lastInspectTimes.set(containerId, now);  // guard before await
                         try {
                             const currentInfo = await container.inspect();
                             this.restartCounts.set(containerId, currentInfo.RestartCount || 0);
-                            this.lastInspectTimes.set(containerId, now);
                         } catch (inspectError) {
                             // Suppress transient inspect errors
                         }
                     }
 
-                    if (!this.lastPredictTimes) this.lastPredictTimes = new Map();
                     const lastPredict = this.lastPredictTimes.get(containerId) || 0;
 
                     if (now - lastPredict > 5000) {
@@ -103,6 +102,9 @@ class ContainerMonitor extends EventEmitter {
             this.metrics.delete(containerId);
             this.lastStorePush.delete(containerId);
             if (this.lastPredictTimes) this.lastPredictTimes.delete(containerId);
+            this.restartCounts.delete(containerId);
+            this.containerNames.delete(containerId);
+            this.lastInspectTimes.delete(containerId);
             metricsStore.clear(containerId);
         }
         if (this.securityTimers.has(containerId)) {

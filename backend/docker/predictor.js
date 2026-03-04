@@ -54,8 +54,9 @@ function predictContainer(containerId) {
   }
 
   if (recentRestarts >= 3) {
+    const minutes = Math.round((window.length * sampleSeconds) / 60);
     probability = Math.min(probability + 0.45, 1.0);
-    reasons.push(`${recentRestarts} restarts in last 5 minutes — crash loop detected`);
+    reasons.push(`${recentRestarts} restarts in last ${minutes} minutes — crash loop detected`);
   }
 
   const secondsUntilFailure = probability > 0 ? Math.max(30, Math.floor(300 * (1 - probability))) : null;

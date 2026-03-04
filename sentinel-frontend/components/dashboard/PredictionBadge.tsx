@@ -8,13 +8,15 @@ export interface Prediction {
   reason: string;
   confidence: 'low' | 'medium' | 'high';
   timestamp: number;
+  history?: Array<{ timestamp: string; value: number }>;
+  slope?: number;
 }
 
 export function PredictionBadge({ prediction }: { prediction?: Prediction }) {
   if (!prediction || prediction.probability < 0.3) return null;
   
   const pct = Math.round(prediction.probability * 100);
-  const mins = prediction.estimatedFailureInSeconds
+  const mins = prediction.estimatedFailureInSeconds !== null
     ? `~${Math.ceil(prediction.estimatedFailureInSeconds / 60)}m`
     : 'soon';
     

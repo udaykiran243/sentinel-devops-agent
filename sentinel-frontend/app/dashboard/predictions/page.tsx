@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { DashboardHeader } from "@/components/layout/DashboardHeader";
-import { useContainers } from "@/hooks/useContainers";
+import { useContainers, Container } from "@/hooks/useContainers";
 import { usePredictions } from "@/hooks/usePredictions";
 import { PredictionBadge } from "@/components/dashboard/PredictionBadge";
 import { ForecastChart } from "@/components/dashboard/ForecastChart";
@@ -73,7 +73,7 @@ export default function PredictionsPage() {
 
                 {/* Prediction List */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {containers.map((container: any) => {
+                    {containers.map((container: Container) => {
                         const prediction = predictions[container.id];
                         // If no prediction or low risk, show mostly neutral
                         // If high risk, show forecast
