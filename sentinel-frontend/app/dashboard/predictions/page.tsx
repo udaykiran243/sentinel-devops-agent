@@ -46,7 +46,7 @@ export default function PredictionsPage() {
                         <div className="flex justify-between items-center">
                             <div>
                                 <p className="text-sm text-muted-foreground">Safe Containers</p>
-                                <h3 className="text-2xl font-bold">{stats.safe + stats.unknown}</h3>
+                                <h3 className="text-2xl font-bold">{stats.safe}</h3>
                             </div>
                             <ShieldCheck className="text-green-500 h-8 w-8" />
                         </div>
